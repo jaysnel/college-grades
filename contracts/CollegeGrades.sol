@@ -14,7 +14,6 @@ contract CollegeGrades {
         string name;
         uint age;
         address payable wallet;
-        Course[] courses;
     }
 
     // Mapping from student ID to student struct
@@ -32,36 +31,37 @@ contract CollegeGrades {
     // Add a new student to the contract
     function addStudent(string memory _name, uint _age, address payable _wallet) public {
         uint id = studentCount++;
-        students[id] = Student(_name, _age, _wallet, new Course[]);
+        // students[id] = Student(_name, _age, _wallet, new Course[]);
         emit StudentAdded(id, _name, _age, _wallet);
     }
 
     // Add a new course to a student's record
-    function addCourse(uint _studentId, string memory _name, uint _credits, uint _grade) public {
-        // Ensure the student exists
-        require(_studentId < studentCount, "Student does not exist");
+    // function addCourse(uint _studentId, string memory _name, uint _credits, uint _grade) public {
+    //     // Ensure the student exists
+    //     require(students[_studentId].name != "", "Student does not exist");
 
-        // Add the course to the student's record
-        Student storage student = students[_studentId];
-        uint courseId = student.courses.length++;
-        student.courses[courseId] = Course(_name, _credits, _grade);
-        emit CourseAdded(_studentId, _name, _credits, _grade);
-    }
+    //     // Add the course to the student's record
+    //     Student storage student = students[_studentId];
+    //     uint courseId = student.courses.length++;
+    //     student.courses[courseId] = Course(_name, _credits, _grade);
+    //     emit CourseAdded(_studentId, _name, _credits, _grade);
+    // }
 
     // Calculate the GPA of a student
-    function getGPA(uint _studentId) public view returns (uint) {
+    function getGPA() public pure returns (uint) {
         // Ensure the student exists
-        require(_studentId < studentCount, "Student does not exist");
+        // require(students[_studentId].name != "", "Student does not exist");
 
         // Calculate the GPA
-        Student storage student = students[_studentId];
+        // Student storage student = students[_studentId];
         uint totalCredits = 0;
         uint totalPoints = 0;
-        for (uint i = 0; i < student.courses.length; i++) {
-            Course storage course = student.courses[i];
-            totalCredits += course.credits;
-            totalPoints += course.credits * course.grade;
-        }
+        // for (uint i = 0; i < student.courses.length; i++) {
+        //     Course storage course = student.courses[i];
+        //     totalCredits += course.credits;
+        //     totalPoints += course.credits * course.grade;
+        // }
         return totalPoints / totalCredits;
     }
 }
+
