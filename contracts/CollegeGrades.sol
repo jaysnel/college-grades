@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
 pragma solidity >=0.8.0 <=0.8.20;
+import "hardhat/console.sol";
 
 contract CollegeGrades {
+    address payable public owner;
+
     // Struct to store information about a course
     struct Course {
         string name;
@@ -29,20 +32,24 @@ contract CollegeGrades {
     // Event to be emitted when a course is added
     event CourseAdded(uint id, string name, uint credits, uint grade);
 
-    // Add a new student to the contract
-    function addStudent(Student memory newStudent) public {
+    constructor() payable {
+        owner = payable(msg.sender);
+    }
 
-        require(newStudent.wallet == address(0), "Student with that wallet/address already exists !!!");
+    // Add a new student to the contract
+    function addStudent(string memory _name, uint _age, address payable _wallet) public {
+        
+        // require(_wallet == address(0), "Student with that wallet/address already exists !!!");
 
         // Geting student id
         uint id = studentCount++;
 
         // Setting all student values except courses
-        students[id].name = newStudent.name;
-        students[id].age = newStudent.age;
-        students[id].wallet = newStudent.wallet;
+        students[id].name = _name;
+        students[id].age = _age;
+        students[id].wallet = _wallet;
 
-        emit StudentAdded(id, newStudent.name, newStudent.age, newStudent.wallet);
+        emit StudentAdded(id, _name, _age, _wallet);
     }
 
     // Add a new course to a student's record
@@ -74,5 +81,10 @@ contract CollegeGrades {
             totalPoints += course.credits * course.grade;
         }
         return totalPoints / totalCredits;
+    }
+
+    // Get list of students
+    function getStudentWallets(uint _studentId) public view returns (address) {
+        return students[_studentId].wallet;
     }
 }
