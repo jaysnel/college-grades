@@ -1,0 +1,1 @@
+Solidity contract that tracks students grades and courses
