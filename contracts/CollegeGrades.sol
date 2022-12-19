@@ -14,6 +14,7 @@ contract CollegeGrades {
         string name;
         uint age;
         address payable wallet;
+        Course[] courses;
     }
 
     // Mapping from student ID to student struct
@@ -29,28 +30,39 @@ contract CollegeGrades {
     event CourseAdded(uint id, string name, uint credits, uint grade);
 
     // Add a new student to the contract
-    function addStudent(string memory _name, uint _age, address payable _wallet) public {
+    function addStudent(Student memory newStudent) public {
+
+        require(newStudent.wallet == address(0), "Student with that wallet/address already exists !!!");
+
+        // Geting student id
         uint id = studentCount++;
-        // students[id] = Student(_name, _age, _wallet, new Course[]);
-        emit StudentAdded(id, _name, _age, _wallet);
+
+        // Setting all student values except courses
+        students[id].name = newStudent.name;
+        students[id].age = newStudent.age;
+        students[id].wallet = newStudent.wallet;
+
+        emit StudentAdded(id, newStudent.name, newStudent.age, newStudent.wallet);
     }
 
     // Add a new course to a student's record
-    function addCourse(uint _studentId, string memory _name, uint _credits, uint _grade) public {
+    function addCourse(uint _studentId, Course memory newCourse) public {
         // Ensure the student exists
-        require(students[_studentId].name != "", "Student does not exist");
+        require(students[_studentId].wallet != address(0), "Student does not exist");
 
         // Add the course to the student's record
         Student storage student = students[_studentId];
-        uint courseId = student.courses.length++;
-        student.courses[courseId] = Course(_name, _credits, _grade);
-        emit CourseAdded(_studentId, _name, _credits, _grade);
+
+       // Adding new course to the array of all the Studen't Courses
+        student.courses.push(newCourse);
+
+        emit CourseAdded(_studentId, newCourse.name, newCourse.credits, newCourse.grade);
     }
 
     // Calculate the GPA of a student
-    function getGPA() public pure returns (uint) {
+    function getGPA(uint _studentId) public view returns (uint) {
         // Ensure the student exists
-        require(students[_studentId].name != "", "Student does not exist");
+        require(students[_studentId].wallet != address(0), "Student does not exist");
 
         // Calculate the GPA
         Student storage student = students[_studentId];
@@ -64,4 +76,3 @@ contract CollegeGrades {
         return totalPoints / totalCredits;
     }
 }
-
