@@ -84,7 +84,7 @@ contract CollegeGrades {
     }
 
     // Get list of students
-    function getStudentWallets(uint _studentId) public view returns (address) {
-        return students[_studentId].wallet;
+    function getStudentData(uint _studentId) public view returns (Student memory) {
+        return students[_studentId];
     }
 }
