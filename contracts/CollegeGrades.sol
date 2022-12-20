@@ -36,11 +36,20 @@ contract CollegeGrades {
         owner = payable(msg.sender);
     }
 
+    function checkIfWalletExists(address _wallet) public view returns (bool) {
+        for (uint i = 0; i < studentCount; i++) {
+            if (students[i].wallet == _wallet) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Add a new student to the contract
     function addStudent(string memory _name, uint _age, address payable _wallet) public {
         
-        // require(_wallet == address(0), "Student with that wallet/address already exists !!!");
-
+        require(checkIfWalletExists(_wallet) != true, "Student with that wallet/address already exists !!!");
+        
         // Geting student id
         uint id = studentCount++;
 
@@ -81,6 +90,11 @@ contract CollegeGrades {
             totalPoints += course.credits * course.grade;
         }
         return totalPoints / totalCredits;
+    }
+
+    // Get total student count
+    function getTotalStudentCount() public view returns (uint) {
+        return studentCount;
     }
 
     // Get list of students

@@ -5,9 +5,12 @@ const main = async () => {
     await deployedContract.deployed();
     console.log('Contract deployed at: ', deployedContract.address);
 
-    await deployedContract.addStudent('Jaylan Doe', 25, owner.address)
-    // await deployedContract.getStudentWallets(0);
+    await deployedContract.addStudent('John Doe', 25, owner.address)
+    await deployedContract.addStudent('Jane Doe', 32, randomPerson.address)
+    let totalStudents = await deployedContract.getTotalStudentCount();
+    console.log('Total Student Count: ', totalStudents);
     console.log(await deployedContract.getStudentData(0));
+    console.log(await deployedContract.getStudentData(1));
 } 
 
 const runMain = async () => {
