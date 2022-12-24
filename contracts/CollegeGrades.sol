@@ -62,17 +62,17 @@ contract CollegeGrades {
     }
 
     // Add a new course to a student's record
-    function addCourse(uint _studentId, Course memory newCourse) public {
+    function addCourse(uint _studentId, string memory _name, uint _credits, uint _grade) public {
         // Ensure the student exists
         require(students[_studentId].wallet != address(0), "Student does not exist");
 
         // Add the course to the student's record
         Student storage student = students[_studentId];
 
-       // Adding new course to the array of all the Studen't Courses
-        student.courses.push(newCourse);
+       // Adding new course to the array of all the Students Courses
+        student.courses.push(Course(_name, _credits, _grade));
 
-        emit CourseAdded(_studentId, newCourse.name, newCourse.credits, newCourse.grade);
+        emit CourseAdded(_studentId, _name, _credits, _grade);
     }
 
     // Calculate the GPA of a student
