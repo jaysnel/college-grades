@@ -14,7 +14,7 @@ const main = async () => {
     await deployedContract.addStudent('Jane Doe', 32, randomPerson.address)
     let totalStudents = await deployedContract.getTotalStudentCount();
     // console.log('Total Student Count: ', totalStudents);
-    console.log(await deployedContract.getStudentData(0));
+    console.log(await deployedContract.getStudentData(1));
     // console.log(await deployedContract.getStudentData(1));
 
     await deployedContract.addCourse(0, 'History', 4, 90)
