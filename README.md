@@ -4,7 +4,7 @@ This is a solidity contrat that allows you to add and track student grades, cour
 
 It is currently deployed to the goerlie network and uses test ETH to add students and courses info. So make sure that your wallet supports it!
 
-UI lives at: [https://college-grades.herokuapp.com/](https://github.com/jaysnel/college-grades-ui)
+UI lives at: [https://github.com/jaysnel/college-grades-ui](https://github.com/jaysnel/college-grades-ui)
 
 Once script is pulled down run the following command to install all dependencies:
 ```
